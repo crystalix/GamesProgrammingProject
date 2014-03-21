@@ -1,0 +1,16 @@
+#include "GameResources.h"
+
+// --------------------------------------
+// Icons
+// --------------------------------------
+IDI_MyWindowIcon	ICON	"Images\\Balloon.ico"
+
+// --------------------------------------
+// Fonts
+// --------------------------------------
+IDF_MyFont			FONT	"Fonts\\JI Balloon Caps.ttf"
+
+// --------------------------------------
+// Cursors
+// --------------------------------------
+IDC_GUNSIGHT		CURSOR	"Images\\Gun.cur"
