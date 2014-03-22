@@ -37,7 +37,8 @@ D3DXVECTOR3 mousePos;
 vector<LPCSTR> pages;
 
 cSprite* theRocket = new cSprite();
-cXAudio gExplodeSound;
+cXAudio pageflip;
+cXAudio backgroundSound;
 bool text =false;
 bool menu = true;
 bool gameStarted = false;
@@ -71,7 +72,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				RECT BB = theRocket->getBoundingRect();
 				if(theRocket->insideRect(BB, mouseXYpos))
 				{
-					gExplodeSound.playSound(L"Sounds\\pageflip.wav",false);
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
 					currentpage++;
 					menu=false;
 					if(currentpage >= pages.size())
@@ -150,6 +151,7 @@ bool initWindow( HINSTANCE hInstance )
 
 bool Start()
 {
+	backgroundSound.playSound(L"Sounds\\backgroundmusic.wav",false);
 	pages.push_back("Images\\startscreen.png");
 	pages.push_back("Images\\page1.png");
 	pages.push_back("Images\\page2.png");
