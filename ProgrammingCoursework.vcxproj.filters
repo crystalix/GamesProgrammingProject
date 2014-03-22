@@ -21,6 +21,9 @@
     <Image Include="Images\button.jpg">
       <Filter>Header Files</Filter>
     </Image>
+    <Image Include="Images\Balloon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -90,5 +93,17 @@
     <ResourceCompile Include="GameResources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fonts\font1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Fonts\alice" />
+    <None Include="Images\Gun.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Fonts\JI Balloon Caps.ttf" />
   </ItemGroup>
 </Project>

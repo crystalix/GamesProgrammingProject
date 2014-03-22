@@ -25,6 +25,9 @@ using namespace std;
 
 HINSTANCE hInst; // global handle to hold the application instance
 HWND wndHandle; // global variable to hold the window handle
+void DefaultPage(POINT _mouseXYpos);
+void PageThree(POINT _mouseXYpos);
+void PageFour(POINT _mouseXYpos);
 
 // Get a reference to the DirectX Manager
 static cD3DManager* d3dMgr = cD3DManager::getInstance();
@@ -35,14 +38,21 @@ static cD3DXSpriteMgr* d3dxSRMgr = cD3DXSpriteMgr::getInstance();
 D3DXVECTOR2 rocketTrans = D3DXVECTOR2(200,200);
 D3DXVECTOR3 mousePos;
 vector<LPCSTR> pages;
-
+vector<LPCSTR> goodbutton;
+vector<LPCSTR> badbutton;
 cSprite* theRocket = new cSprite();
+cSprite* choiceButton = new cSprite();
+cSprite* choiceButton2 = new cSprite();
 cXAudio pageflip;
 cXAudio backgroundSound;
 bool text =false;
-bool menu = true;
 bool gameStarted = false;
 int currentpage=0;
+int button1=0;
+int button2=1;
+LPCSTR allignment="good";
+bool choice;
+bool madeChoice=false;
 
 /*
 ==================================================================
@@ -62,27 +72,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				mouseXYpos.x=LOWORD(lParam);
 				mouseXYpos.y=HIWORD(lParam); 
 				mousePos=D3DXVECTOR3((float)mouseXYpos.x,(float)mouseXYpos.y,0.0f);
-				//theRocket->getSpritePos2D();
-				
-				
 				text=true;
 				
-
-
-				RECT BB = theRocket->getBoundingRect();
-				if(theRocket->insideRect(BB, mouseXYpos))
+				switch(currentpage)
 				{
-					pageflip.playSound(L"Sounds\\pageflip.wav",false);
-					currentpage++;
-					menu=false;
-					if(currentpage >= pages.size())
-					{
-						currentpage = pages.size() - 1;
-					}
-
-
-					OutputDebugString(TEXT("Hit!\n"));
+					case 2 : PageThree(mouseXYpos);break;
+					case 3 : PageFour(mouseXYpos);break;
+					default: DefaultPage(mouseXYpos);break;
 				}
+				
 				break;
 			}
 		case WM_CLOSE:
@@ -149,18 +147,109 @@ bool initWindow( HINSTANCE hInstance )
 	return true;
 }
 
+
+
 bool Start()
 {
+	allignment="good";
 	backgroundSound.playSound(L"Sounds\\backgroundmusic.wav",false);
 	pages.push_back("Images\\startscreen.png");
 	pages.push_back("Images\\page1.png");
 	pages.push_back("Images\\page2.png");
+	pages.push_back("Images\\path1.png");
+	pages.push_back("Images\\path2.png");
+	goodbutton.push_back("Images\\rabbitbutton.png");
+	badbutton.push_back("Images\\gohome.png");
 	return true;
 }
 void Update()
 {
+	choiceButton->setTexture(d3dMgr->getTheD3DDevice(),goodbutton[0]);
+	choiceButton2->setTexture(d3dMgr->getTheD3DDevice(),badbutton[0]);
+	if(currentpage==2 && madeChoice==false)
+	{
+		choice=true;
+	}
+	else
+	{
+		choice=false;
+	}
 
+	theRocket->update();
+	choiceButton->update();
+	choiceButton2->update();
 }
+
+void DefaultPage(POINT _mouseXYpos)
+{
+	if(theRocket->insideRect(theRocket->getBoundingRect(), _mouseXYpos))
+				{
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage++;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+
+
+					OutputDebugString(TEXT("Hit!\n"));
+				}
+}
+
+void PageThree(POINT _mouseXYpos)
+{
+		if(choiceButton->insideRect(choiceButton->getBoundingRect(), _mouseXYpos))
+				{
+
+					madeChoice=true;
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage=3;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+					OutputDebugString(TEXT("Hit!\n"));
+				}
+		if(choiceButton2->insideRect(choiceButton2->getBoundingRect(), _mouseXYpos))
+				{
+					//go to page 5
+					madeChoice=true;
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage=4;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+					OutputDebugString(TEXT("Hit!\n"));
+				}
+}
+void PageFour(POINT _mouseXYpos)
+{
+		if(choiceButton->insideRect(choiceButton->getBoundingRect(), _mouseXYpos))
+				{
+					madeChoice=true;
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage=3;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+					OutputDebugString(TEXT("Hit!\n"));
+				}
+				else if(choiceButton2->insideRect(choiceButton2->getBoundingRect(), _mouseXYpos))
+				{
+					//go to page 5
+					madeChoice=true;
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage=4;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+					OutputDebugString(TEXT("Hit!\n"));
+				}
+}
+
 
 /*
 ==================================================================
@@ -181,35 +270,36 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	{
 		gameStarted = Start();
 	}
+	
 
 	LPDIRECT3DSURFACE9 aSurface;				// the Direct3D surface
-	LPDIRECT3DSURFACE9 menuSurface;
 	LPDIRECT3DSURFACE9 theBackbuffer = NULL;  // This will hold the back buffer
 	
 	// Initial starting position for Rocket
-	D3DXVECTOR3 rocketPos = D3DXVECTOR3(600,500,0);
+	D3DXVECTOR3 rocketPos = D3DXVECTOR3(600,550,0);
+	D3DXVECTOR3 buttonpos1 = D3DXVECTOR3(600,400,0);
+	D3DXVECTOR3 buttonpos2 = D3DXVECTOR3(600,550,0);
 	//cSprite theRocket(rocketPos,d3dMgr->getTheD3DDevice(),"Images\\BalloonRed.png"); 
 
 	//managed to fix sprite by initialising it then manually setting its texture and position
 
-	//cSprite* theRocket = new cSprite();
 	theRocket->setTexture(d3dMgr->getTheD3DDevice(),"Images\\nextbutton.png");
 	theRocket->setSpritePos(rocketPos);
-	theRocket->setSpriteScaling(1.0f,1.0f);
-	//theRocket.SetTranslation(D3DXVECTOR2(5.0f,0.0f));
+	choiceButton->setSpritePos(buttonpos1);
+	choiceButton2->setSpritePos(buttonpos2);
 
 	MSG msg;
 	ZeroMemory( &msg, sizeof( msg ) );
 
 	// Create the background surface
 	
-		aSurface = d3dMgr->getD3DSurfaceFromFile(pages[currentpage]);
+	aSurface = d3dMgr->getD3DSurfaceFromFile(pages[currentpage]);
 
-
-	cD3DXFont* balloonFont = new cD3DXFont(d3dMgr->getTheD3DDevice(),hInstance, "JI Balloon Caps");
+	cD3DXFont* balloonFont = new cD3DXFont(d3dMgr->getTheD3DDevice(),hInstance, "Cinegbin");
 
 	RECT textPos;
-	SetRect(&textPos, 50, 10, 550, 100);
+	//SetRect(&textPos, 50, 10, 550, 100);
+	SetRect(&textPos,350,10,550,100);
 
 	while( msg.message!=WM_QUIT )
 	{
@@ -222,9 +312,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 		else
 		{
 			// Game code goes here
-			rocketPos = D3DXVECTOR3(rocketTrans.x,rocketTrans.y,0);
+			Update();
 			//theRocket.setSpritePos(rocketPos);
-			theRocket->update();
+			
 
 			d3dMgr->beginRender();
 			theBackbuffer = d3dMgr->getTheBackBuffer();
@@ -234,10 +324,21 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 			d3dMgr->releaseTheBackbuffer(theBackbuffer);
 			
 			d3dxSRMgr->beginDraw();
-			d3dxSRMgr->drawSprite(theRocket->getTexture(),NULL,NULL,&(theRocket->getSpritePos()),0xFFFFFFFF);
 			if(text==true)
 			{
-			//balloonFont->printText("bob",textPos);
+			balloonFont->printText(allignment,textPos);
+			}
+			if(choice==true)
+			{
+				choiceButton->setTexture(d3dMgr->getTheD3DDevice(),goodbutton[button1]);
+				choiceButton2->setTexture(d3dMgr->getTheD3DDevice(),badbutton[button1]);
+				d3dxSRMgr->drawSprite(choiceButton->getTexture(),NULL,NULL,&(choiceButton->getSpritePos()),0xFFFFFFFF);
+				d3dxSRMgr->drawSprite(choiceButton2->getTexture(),NULL,NULL,&(choiceButton2->getSpritePos()),0xFFFFFFFF);
+			}
+			else if(choice==false)
+			{
+				d3dxSRMgr->drawSprite(theRocket->getTexture(),NULL,NULL,&(theRocket->getSpritePos()),0xFFFFFFFF);
+
 			}
 			d3dxSRMgr->endDraw();
 			d3dMgr->endRender();

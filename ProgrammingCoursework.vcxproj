@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Balloon.ico" />
+    <Image Include="Images\Balloon.ico" />
     <Image Include="Images\button.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameResources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fonts\alice" />
+    <None Include="fonts\font1.bin" />
+    <None Include="Images\Gun.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Fonts\JI Balloon Caps.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{51DA0257-4E9C-4753-8B2C-C4DCC4132D48}</ProjectGuid>
