@@ -33,7 +33,15 @@ static cD3DManager* d3dMgr = cD3DManager::getInstance();
 static cD3DXSpriteMgr* d3dxSRMgr = cD3DXSpriteMgr::getInstance();
 	
 D3DXVECTOR2 rocketTrans = D3DXVECTOR2(200,200);
+D3DXVECTOR3 mousePos;
+vector<LPCSTR> pages;
 
+cSprite* theRocket = new cSprite();
+cXAudio gExplodeSound;
+bool text =false;
+bool menu = true;
+bool gameStarted = false;
+int currentpage=0;
 
 /*
 ==================================================================
@@ -47,19 +55,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	// Check any available messages from the queue
 	switch (message)
 	{
-		case WM_KEYDOWN:
+		case WM_LBUTTONDOWN:
 			{
-				if (wParam == VK_LEFT)
+				POINT mouseXYpos;
+				mouseXYpos.x=LOWORD(lParam);
+				mouseXYpos.y=HIWORD(lParam); 
+				mousePos=D3DXVECTOR3((float)mouseXYpos.x,(float)mouseXYpos.y,0.0f);
+				//theRocket->getSpritePos2D();
+				
+				
+				text=true;
+				
+
+
+				RECT BB = theRocket->getBoundingRect();
+				if(theRocket->insideRect(BB, mouseXYpos))
 				{
-					rocketTrans.x -= 5.0f;
-					return 0;
+					gExplodeSound.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage++;
+					menu=false;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+
+
+					OutputDebugString(TEXT("Hit!\n"));
 				}
-				if (wParam == VK_RIGHT)
-				{
-					rocketTrans.x += 5.0f;
-					return 0;
-				}
-				return 0;
+				break;
 			}
 		case WM_CLOSE:
 			{
@@ -125,6 +148,18 @@ bool initWindow( HINSTANCE hInstance )
 	return true;
 }
 
+bool Start()
+{
+	pages.push_back("Images\\startscreen.png");
+	pages.push_back("Images\\page1.png");
+	pages.push_back("Images\\page2.png");
+	return true;
+}
+void Update()
+{
+
+}
+
 /*
 ==================================================================
 // This is winmain, the main entry point for Windows applications
@@ -140,27 +175,39 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 		return false;
 	if ( !d3dxSRMgr->initD3DXSpriteMgr(d3dMgr->getTheD3DDevice()))
 		return false;
+	if(!gameStarted)
+	{
+		gameStarted = Start();
+	}
 
 	LPDIRECT3DSURFACE9 aSurface;				// the Direct3D surface
+	LPDIRECT3DSURFACE9 menuSurface;
 	LPDIRECT3DSURFACE9 theBackbuffer = NULL;  // This will hold the back buffer
 	
 	// Initial starting position for Rocket
-	D3DXVECTOR3 rocketPos = D3DXVECTOR3(300,300,0);
+	D3DXVECTOR3 rocketPos = D3DXVECTOR3(600,500,0);
 	//cSprite theRocket(rocketPos,d3dMgr->getTheD3DDevice(),"Images\\BalloonRed.png"); 
 
 	//managed to fix sprite by initialising it then manually setting its texture and position
 
-	cSprite* theRocket = new cSprite();
-	theRocket->setTexture(d3dMgr->getTheD3DDevice(),"Images\\button.jpg");
+	//cSprite* theRocket = new cSprite();
+	theRocket->setTexture(d3dMgr->getTheD3DDevice(),"Images\\nextbutton.png");
 	theRocket->setSpritePos(rocketPos);
-	//theRocket->setSpriteScaling(1.0f,1.0f);
+	theRocket->setSpriteScaling(1.0f,1.0f);
 	//theRocket.SetTranslation(D3DXVECTOR2(5.0f,0.0f));
 
 	MSG msg;
 	ZeroMemory( &msg, sizeof( msg ) );
 
 	// Create the background surface
-	aSurface = d3dMgr->getD3DSurfaceFromFile("Images\\miku.jpg");
+	
+		aSurface = d3dMgr->getD3DSurfaceFromFile(pages[currentpage]);
+
+
+	cD3DXFont* balloonFont = new cD3DXFont(d3dMgr->getTheD3DDevice(),hInstance, "JI Balloon Caps");
+
+	RECT textPos;
+	SetRect(&textPos, 50, 10, 550, 100);
 
 	while( msg.message!=WM_QUIT )
 	{
@@ -175,14 +222,21 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 			// Game code goes here
 			rocketPos = D3DXVECTOR3(rocketTrans.x,rocketTrans.y,0);
 			//theRocket.setSpritePos(rocketPos);
+			theRocket->update();
 
 			d3dMgr->beginRender();
 			theBackbuffer = d3dMgr->getTheBackBuffer();
+			aSurface = d3dMgr->getD3DSurfaceFromFile(pages[currentpage]);
 			d3dMgr->updateTheSurface(aSurface, theBackbuffer);
+			
 			d3dMgr->releaseTheBackbuffer(theBackbuffer);
 			
 			d3dxSRMgr->beginDraw();
 			d3dxSRMgr->drawSprite(theRocket->getTexture(),NULL,NULL,&(theRocket->getSpritePos()),0xFFFFFFFF);
+			if(text==true)
+			{
+			//balloonFont->printText("bob",textPos);
+			}
 			d3dxSRMgr->endDraw();
 			d3dMgr->endRender();
 		}
@@ -191,3 +245,5 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	d3dMgr->clean();
 	return (int) msg.wParam;
 }
+
+
