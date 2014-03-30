@@ -9,7 +9,7 @@ IDI_MyWindowIcon	ICON	"Images\\Balloon.ico"
 // Fonts
 // --------------------------------------
 IDF_MyFont			FONT	"Fonts\\JI Balloon Caps.ttf"
-
+IDF_FONT1			FONT	"Fonts\\RMBunny.ttf"		
 // --------------------------------------
 // Cursors
 // --------------------------------------
