@@ -330,9 +330,9 @@ int cSprite::getSTHeight()						// Return height of texture;
 */
 bool cSprite::insideRect(RECT thisSprite, POINT aPoint) 						// Return true if a point is within the rectangle
 {
-	if ((aPoint.x >= thisSprite.left) &&
+	if ((aPoint.x >= thisSprite.left-20) &&
 		(aPoint.x <= thisSprite.right) &&
-		(aPoint.y >= thisSprite.top ) &&
+		(aPoint.y >= thisSprite.top-60 ) &&		//Fix for bounding box bug
 		(aPoint.y <= thisSprite.bottom))
 	{
 		return true;

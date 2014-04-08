@@ -25,6 +25,8 @@ void PageThree(POINT _mouseXYpos);
 void PageFour(POINT _mouseXYpos);
 void PageEight(POINT _mouseXYpos);
 void PageNine(POINT _mouseXYpos);
+void PageTwelve(POINT _mouseXYpos);
+void PageThirteen(POINT _mouseXYpos);
 // Get a reference to the DirectX Manager
 static cD3DManager* d3dMgr = cD3DManager::getInstance();
 
@@ -42,12 +44,13 @@ cSprite* background = new cSprite();
 cXAudio pageflip;
 cXAudio backgroundSound;
 cXAudio staticnoise;
-bool text =false;
+bool endgame =false;
 bool gameStarted = false;
 int currentpage=0;
 int button1=0;
 int button2=1;
-LPCSTR allignment="good";
+LPCSTR issane="sane";
+int sanity=3;
 bool choice;
 bool madeChoice=false;
 
@@ -69,7 +72,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				mouseXYpos.x=LOWORD(lParam);
 				mouseXYpos.y=HIWORD(lParam); 
 				mousePos=D3DXVECTOR3((float)mouseXYpos.x,(float)mouseXYpos.y,0.0f);
-				text=true;
 				
 				switch(currentpage)
 				{
@@ -77,6 +79,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					case 4 : PageFour(mouseXYpos);break;
 					case 8: PageEight(mouseXYpos);break;
 					case 9: PageNine(mouseXYpos);break;
+					case 12:PageTwelve(mouseXYpos);break;
+					case 13:PageThirteen(mouseXYpos);break;
 					default: DefaultPage(mouseXYpos);break;
 				}
 				
@@ -150,7 +154,7 @@ bool initWindow( HINSTANCE hInstance )
 
 bool Start()
 {
-	allignment="good";
+	issane="sane";
 	backgroundSound.playSound(L"Sounds\\backgroundmusic.wav",true);
 	pages.push_back("Images\\intropage.png");
 	pages.push_back("Images\\startscreen.png");
@@ -163,18 +167,24 @@ bool Start()
 	pages.push_back("Images\\page8.png");
 	pages.push_back("Images\\path3.png");
 	pages.push_back("Images\\path4.png");
-	pages.push_back("Images\\test.png");
+	pages.push_back("Images\\page11.png");
+	pages.push_back("Images\\page12.png");
+	pages.push_back("Images\\path5.png");
+	pages.push_back("Images\\path6.png");
+	pages.push_back("Images\\endpage.png");
 	goodbutton.push_back("Images\\rabbitbutton.png");
 	goodbutton.push_back("Images\\goodbutton2.png");
+	goodbutton.push_back("Images\\goodbutton3.png");
 	badbutton.push_back("Images\\gohome.png");
 	badbutton.push_back("Images\\badbutton2.png");
+	badbutton.push_back("Images\\badbutton3.png");
 	return true;
 }
 void Update()
 {
 	choiceButton->setTexture(d3dMgr->getTheD3DDevice(),goodbutton[0]);
 	choiceButton2->setTexture(d3dMgr->getTheD3DDevice(),badbutton[0]);
-	if(currentpage==3 || currentpage==8 && madeChoice==false)
+	if(currentpage==3 || currentpage==8 || currentpage==12 && madeChoice==false)
 	{
 		choice=true;
 	}
@@ -187,6 +197,14 @@ void Update()
 	choiceButton->update();
 	choiceButton2->update();
 	background->update();
+	if(sanity>=2)
+	{
+		issane="sane";
+	}
+	else
+	{
+		issane="insane";
+	}
 }
 
 void DefaultPage(POINT _mouseXYpos)
@@ -230,6 +248,7 @@ void PageThree(POINT _mouseXYpos)
 					}
 					OutputDebugString(TEXT("Hit!\n"));
 					button1=1;
+					sanity++;
 				}
 		if(choiceButton2->insideRect(choiceButton2->getBoundingRect(), _mouseXYpos))
 				{
@@ -243,6 +262,7 @@ void PageThree(POINT _mouseXYpos)
 					}
 					OutputDebugString(TEXT("Hit!\n"));
 					button1=1;
+					sanity--;
 				}
 }
 void PageFour(POINT _mouseXYpos)
@@ -276,6 +296,7 @@ void PageEight(POINT _mouseXYpos)
 						currentpage = pages.size() - 1;
 					}
 					OutputDebugString(TEXT("Hit!\n"));
+					sanity++;
 				}
 		if(choiceButton2->insideRect(choiceButton2->getBoundingRect(), _mouseXYpos))
 				{
@@ -288,13 +309,64 @@ void PageEight(POINT _mouseXYpos)
 						currentpage = pages.size() - 1;
 					}
 					OutputDebugString(TEXT("Hit!\n"));
+					sanity--;
 				}
+		button1=2;
 }
 void PageNine(POINT _mouseXYpos)
 {
 		if(nextbutton->insideRect(nextbutton->getBoundingRect(), _mouseXYpos))
 				{
 					currentpage=11;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+					else
+					{
+						pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					}
+
+					OutputDebugString(TEXT("Hit!\n"));
+				}
+}
+void PageTwelve(POINT _mouseXYpos)
+{
+		if(choiceButton->insideRect(choiceButton->getBoundingRect(), _mouseXYpos))
+				{
+
+					madeChoice=true;
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage=13;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+					OutputDebugString(TEXT("Hit!\n"));
+					sanity++;
+				}
+		if(choiceButton2->insideRect(choiceButton2->getBoundingRect(), _mouseXYpos))
+				{
+					//go to page 10
+					madeChoice=true;
+					pageflip.playSound(L"Sounds\\pageflip.wav",false);
+					currentpage=14;
+					if(currentpage >= pages.size())
+					{
+						currentpage = pages.size() - 1;
+					}
+					OutputDebugString(TEXT("Hit!\n"));
+					sanity--;
+				}
+		button1=3;
+		
+}
+void PageThirteen(POINT _mouseXYpos)
+{
+	madeChoice=false;
+		if(nextbutton->insideRect(nextbutton->getBoundingRect(), _mouseXYpos))
+				{
+					currentpage=15;
 					if(currentpage >= pages.size())
 					{
 						currentpage = pages.size() - 1;
@@ -377,10 +449,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 			
 			d3dxSRMgr->beginDraw();
 			d3dxSRMgr->drawSprite(background->getTexture(),NULL,NULL,&(background->getSpritePos()),0xFFFFFFFF);
-			if(text==true)
-			{
-			balloonFont->printText(allignment,textPos);
-			}
+			
 			if(choice==true)
 			{
 				choiceButton->setTexture(d3dMgr->getTheD3DDevice(),goodbutton[button1]);
@@ -394,6 +463,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 
 			}
 			background->setTexture(d3dMgr->getTheD3DDevice(),(pages[currentpage]));
+			if(
+			balloonFont->printText(issane,textPos);
 			d3dxSRMgr->endDraw();
 			d3dMgr->endRender();
 		}
