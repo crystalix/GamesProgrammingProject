@@ -16,12 +16,10 @@
     <Image Include="Images\button.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cBalloon.cpp" />
     <ClCompile Include="cD3DManager.cpp" />
     <ClCompile Include="cD3DXFont.cpp" />
     <ClCompile Include="cD3DXSpriteMgr.cpp" />
     <ClCompile Include="cD3DXTexture.cpp" />
-    <ClCompile Include="cExplosion.cpp" />
     <ClCompile Include="cSprite.cpp" />
     <ClCompile Include="cXAudio.cpp" />
     <ClCompile Include="main.cpp" />

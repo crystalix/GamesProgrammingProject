@@ -29,9 +29,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cBalloon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cD3DManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cD3DXSpriteMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cExplosion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cXAudio.cpp">

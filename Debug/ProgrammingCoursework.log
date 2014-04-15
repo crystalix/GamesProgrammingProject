@@ -1,26 +1,26 @@
-﻿Build started 08/04/2014 13:45:20.
+﻿Build started 15/04/2014 14:00:06.
      1>Project "C:\Users\Emma\Documents\GitHub\GamesProgrammingProject\ProgrammingCoursework.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"d3d9.lib d3dx9.lib" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(216): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(237): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(250): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(264): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(284): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(296): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(309): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(329): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(341): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(355): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(269): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(291): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(305): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(320): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(340): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(353): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(367): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(387): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(400): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(416): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(435): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\emma\documents\github\gamesprogrammingproject\main.cpp(455): warning C4018: '>=' : signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Emma\Documents\GitHub\GamesProgrammingProject\Debug\ProgrammingCoursework.exe" /INCREMENTAL /NOLOGO d3d9.lib d3dx9.lib winmm.lib DXUTOpt.lib dxerr.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST:NO /DEBUG /PDB:"C:\Users\Emma\Documents\GitHub\GamesProgrammingProject\Debug\ProgrammingCoursework.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Emma\Documents\GitHub\GamesProgrammingProject\Debug\ProgrammingCoursework.lib" /MACHINE:X86 Debug\GameResources.res
-         Debug\cBalloon.obj
          Debug\cD3DManager.obj
          Debug\cD3DXFont.obj
          Debug\cD3DXSpriteMgr.obj
          Debug\cD3DXTexture.obj
-         Debug\cExplosion.obj
          Debug\cSprite.obj
          Debug\cXAudio.obj
          Debug\main.obj
@@ -29,4 +29,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.60
+Time Elapsed 00:00:07.97
