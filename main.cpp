@@ -619,6 +619,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 				else if(choice==false)
 				{
 					d3dxSRMgr->drawSprite(nextbutton->getTexture(),NULL,NULL,&(nextbutton->getSpritePos()),0xFFFFFFFF);
+					//if not the first page or a page after a choice, the back button will be displayed
 					if(currentpage!=0&&currentpage!=3 && currentpage!=4 && currentpage!=8 && currentpage!=9 && currentpage!=12 &&currentpage!=13 && currentpage!=16 && currentpage!=17)
 					{
 					d3dxSRMgr->drawSprite(backbutton->getTexture(),NULL,NULL,&(backbutton->getSpritePos()),0xFFFFFFFF);
@@ -630,6 +631,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 				d3dxSRMgr->drawSprite(table->getTexture(),NULL,NULL,&(table->getSpritePos()),0xFFFFFFFF);
 				d3dxSRMgr->drawSprite(openbook->getTexture(),NULL,NULL,&(openbook->getSpritePos()),0xFFFFFFFF);
 				openbookpos.y++;
+				
 			}
 
 				d3dxSRMgr->endDraw();
