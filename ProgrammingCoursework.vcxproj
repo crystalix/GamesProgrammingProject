@@ -41,6 +41,8 @@
     <ResourceCompile Include="GameResources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Fonts\alice" />
     <None Include="fonts\font1.bin" />
     <None Include="Images\Gun.cur" />

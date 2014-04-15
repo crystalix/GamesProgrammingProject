@@ -47,6 +47,7 @@ vector<LPCSTR> badbutton;
 LPCSTR issane="sane";
 //initialising sprites
 cSprite* nextbutton = new cSprite();
+cSprite* backbutton = new cSprite();
 cSprite* choiceButton = new cSprite();
 cSprite* choiceButton2 = new cSprite();
 cSprite* background = new cSprite();
@@ -97,14 +98,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			*/
 			switch(currentpage)
 			{
-			case 3 : PageThree(mouseXYpos);break;
-			case 4 : PageFour(mouseXYpos);break;
-			case 8: PageEight(mouseXYpos);break;
-			case 9: PageNine(mouseXYpos);break;
-			case 12:PageTwelve(mouseXYpos);break;
-			case 13:PageThirteen(mouseXYpos);break;
-			case 15:PageFifteen(mouseXYpos);break;
-			case 16:PageSixteen(mouseXYpos);break;
+			case 2 : PageThree(mouseXYpos);break;
+			case 3 : PageFour(mouseXYpos);break;
+			case 7: PageEight(mouseXYpos);break;
+			case 8: PageNine(mouseXYpos);break;
+			case 11:PageTwelve(mouseXYpos);break;
+			case 12:PageThirteen(mouseXYpos);break;
+			case 14:PageFifteen(mouseXYpos);break;
+			case 15:PageSixteen(mouseXYpos);break;
 			default: DefaultPage(mouseXYpos);break;
 			}
 
@@ -188,7 +189,6 @@ bool Start()
 	//start background music
 	backgroundSound.playSound(L"Sounds\\backgroundmusic.wav",true);
 	//add pages to the book
-	pages.push_back("Images\\intropage.png");
 	pages.push_back("Images\\startscreen.png");
 	pages.push_back("Images\\page1.png");
 	pages.push_back("Images\\page2.png");
@@ -220,7 +220,7 @@ bool Start()
 void Update()
 {
 	//set choice to true when the page has a choice so the choice buttons will be used instead of next button
-	if(currentpage==3 || currentpage==8 || currentpage==12 || currentpage==16 && madeChoice==false)
+	if(currentpage==2 || currentpage==7 || currentpage==11 || currentpage==15 && madeChoice==false)
 	{
 		choice=true;
 	}
@@ -231,6 +231,7 @@ void Update()
 
 	//update sprites
 	nextbutton->update();
+	backbutton->update();
 	choiceButton->update();
 	choiceButton2->update();
 	background->update();
@@ -258,11 +259,11 @@ void DefaultPage(POINT _mouseXYpos)
 	if(nextbutton->insideRect(nextbutton->getBoundingRect(), _mouseXYpos))
 	{
 		currentpage++;
-		if(currentpage==3)
+		if(currentpage==2)
 		{
 			pageflip.playSound(L"Sounds\\static.wav",false);
 		}
-		else if(currentpage==6)
+		else if(currentpage==5)
 		{
 			pageflip.playSound(L"Sounds\\whispers.wav",false);
 		}
@@ -277,6 +278,20 @@ void DefaultPage(POINT _mouseXYpos)
 
 		OutputDebugString(TEXT("Hit!\n"));
 	}
+	if(currentpage!=0)
+	{
+	if(backbutton->insideRect(backbutton->getBoundingRect(), _mouseXYpos))
+	{
+		pageflip.playSound(L"Sounds\\pageflip.wav",false);
+		currentpage--;
+		if(currentpage >= pages.size())
+		{
+			currentpage = pages.size() - 1;
+		}
+		OutputDebugString(TEXT("Hit!\n"));
+		button1=1;
+	}
+	}
 }
 
 
@@ -287,7 +302,7 @@ void PageThree(POINT _mouseXYpos)
 
 		madeChoice=true;
 		pageflip.playSound(L"Sounds\\pageflip.wav",false);
-		currentpage=4;
+		currentpage=3;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -301,7 +316,7 @@ void PageThree(POINT _mouseXYpos)
 		//go to page 5
 		madeChoice=true;
 		pageflip.playSound(L"Sounds\\pageflip.wav",false);
-		currentpage=5;
+		currentpage=4;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -316,7 +331,7 @@ void PageFour(POINT _mouseXYpos)
 	madeChoice=false;
 	if(nextbutton->insideRect(nextbutton->getBoundingRect(), _mouseXYpos))
 	{
-		currentpage=6;
+		currentpage=5;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -328,6 +343,7 @@ void PageFour(POINT _mouseXYpos)
 
 		OutputDebugString(TEXT("Hit!\n"));
 	}
+	
 }
 void PageEight(POINT _mouseXYpos)
 {
@@ -336,7 +352,7 @@ void PageEight(POINT _mouseXYpos)
 
 		madeChoice=true;
 		pageflip.playSound(L"Sounds\\pageflip.wav",false);
-		currentpage=9;
+		currentpage=8;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -363,7 +379,7 @@ void PageNine(POINT _mouseXYpos)
 {
 	if(nextbutton->insideRect(nextbutton->getBoundingRect(), _mouseXYpos))
 	{
-		currentpage=11;
+		currentpage=10;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -383,7 +399,7 @@ void PageTwelve(POINT _mouseXYpos)
 
 		madeChoice=true;
 		pageflip.playSound(L"Sounds\\pageflip.wav",false);
-		currentpage=13;
+		currentpage=12;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -396,7 +412,7 @@ void PageTwelve(POINT _mouseXYpos)
 		//go to page 10
 		madeChoice=true;
 		pageflip.playSound(L"Sounds\\pageflip.wav",false);
-		currentpage=14;
+		currentpage=13;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -412,7 +428,7 @@ void PageThirteen(POINT _mouseXYpos)
 	madeChoice=false;
 	if(nextbutton->insideRect(nextbutton->getBoundingRect(), _mouseXYpos))
 	{
-		currentpage=15;
+		currentpage=14;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -430,7 +446,7 @@ void PageFifteen(POINT _mouseXYpos)
 	madeChoice=false;
 	if(nextbutton->insideRect(nextbutton->getBoundingRect(), _mouseXYpos))
 	{
-		currentpage=16;
+		currentpage=15;
 		gameEnd=true;
 		if(currentpage >= pages.size())
 		{
@@ -451,7 +467,7 @@ void PageSixteen(POINT _mouseXYpos)
 	{
 		madeChoice=true;
 		pageflip.playSound(L"Sounds\\pageflip.wav",false);
-		currentpage=1;
+		currentpage=0;
 		if(currentpage >= pages.size())
 		{
 			currentpage = pages.size() - 1;
@@ -495,6 +511,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	LPDIRECT3DSURFACE9 theBackbuffer = NULL;  // This will hold the back buffer
 	// Initial position vectors for sprites to be used in the game
 	D3DXVECTOR3 rocketPos = D3DXVECTOR3(600,550,0);
+	D3DXVECTOR3 backbuttonpos = D3DXVECTOR3(450,550,0);
 	D3DXVECTOR3 buttonpos1 = D3DXVECTOR3(600,400,0);
 	D3DXVECTOR3 buttonpos2 = D3DXVECTOR3(600,550,0);
 	D3DXVECTOR3 restartbuttonPos =  D3DXVECTOR3(400,550,0);
@@ -509,6 +526,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	background->setSpritePos(backgroundpos);
 	nextbutton->setTexture(d3dMgr->getTheD3DDevice(),"Images\\nextbutton.png");
 	nextbutton->setSpritePos(rocketPos);
+	backbutton->setTexture(d3dMgr->getTheD3DDevice(),"Images\\backbutton.png");
+	backbutton->setSpritePos(backbuttonpos);
 	choiceButton->setSpritePos(buttonpos1);
 	choiceButton2->setSpritePos(buttonpos2);
 	openbook->setTexture(d3dMgr->getTheD3DDevice(),"Images\\openbook.png");
@@ -600,7 +619,10 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 				else if(choice==false)
 				{
 					d3dxSRMgr->drawSprite(nextbutton->getTexture(),NULL,NULL,&(nextbutton->getSpritePos()),0xFFFFFFFF);
-
+					if(currentpage!=0&&currentpage!=3 && currentpage!=4 && currentpage!=8 && currentpage!=9 && currentpage!=12 &&currentpage!=13 && currentpage!=16 && currentpage!=17)
+					{
+					d3dxSRMgr->drawSprite(backbutton->getTexture(),NULL,NULL,&(backbutton->getSpritePos()),0xFFFFFFFF);
+					}
 				}
 			}
 			else
