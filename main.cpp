@@ -525,6 +525,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	background->setTexture(d3dMgr->getTheD3DDevice(),(pages[currentpage]));
 	background->setSpritePos(backgroundpos);
 	nextbutton->setSpritePos(rocketPos);
+	nextbutton->setTexture(d3dMgr->getTheD3DDevice(),"Images\\nextbutton.png");
 	backbutton->setTexture(d3dMgr->getTheD3DDevice(),"Images\\backbutton.png");
 	backbutton->setSpritePos(backbuttonpos);
 	choiceButton->setSpritePos(buttonpos1);
