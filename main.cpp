@@ -524,7 +524,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLi
 	//initial textures and positions of sprites
 	background->setTexture(d3dMgr->getTheD3DDevice(),(pages[currentpage]));
 	background->setSpritePos(backgroundpos);
-	nextbutton->setTexture(d3dMgr->getTheD3DDevice(),"Images\\nextbutton.png");
 	nextbutton->setSpritePos(rocketPos);
 	backbutton->setTexture(d3dMgr->getTheD3DDevice(),"Images\\backbutton.png");
 	backbutton->setSpritePos(backbuttonpos);
